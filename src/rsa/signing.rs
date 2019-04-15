@@ -229,7 +229,7 @@ impl KeyPair {
         let public_key = verification::Key::from_modulus_and_exponent(
             n.big_endian_without_leading_zero(),
             e.big_endian_without_leading_zero(),
-            bits::BitLength::from_usize_bits(2048),
+            bits::BitLength::from_usize_bits(1024),
             super::PRIVATE_KEY_PUBLIC_MODULUS_MAX_BITS,
             65537,
         )?;
