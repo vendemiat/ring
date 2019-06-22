@@ -406,7 +406,7 @@ pub trait VerificationAlgorithm: core::fmt::Debug + Sync + sealed::Sealed {
 /// # fn main() { }
 /// ```
 pub fn verify(
-    alg: &VerificationAlgorithm, public_key: untrusted::Input, msg: untrusted::Input,
+    alg: &dyn VerificationAlgorithm, public_key: untrusted::Input, msg: untrusted::Input,
     signature: untrusted::Input,
 ) -> Result<(), error::Unspecified> {
     let _ = cpu::features();

@@ -96,7 +96,7 @@ impl core::fmt::Display for Unspecified {
 #[cfg(feature = "use_heap")]
 impl std::error::Error for Unspecified {
     #[inline]
-    fn cause(&self) -> Option<&std::error::Error> { None }
+    fn cause(&self) -> Option<&dyn std::error::Error> { None }
 
     fn description(&self) -> &str { Self::description_() }
 }
@@ -175,7 +175,7 @@ impl KeyRejected {
 
 #[cfg(feature = "use_heap")]
 impl std::error::Error for KeyRejected {
-    fn cause(&self) -> Option<&std::error::Error> { None }
+    fn cause(&self) -> Option<&dyn std::error::Error> { None }
 
     fn description(&self) -> &str { self.description_() }
 }
