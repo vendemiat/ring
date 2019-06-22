@@ -294,7 +294,7 @@ pub use crate::rsa::{
     signing::KeyPair as RsaKeyPair,
 
     verification::{
-        RSA_PKCS1_1024_8192_SHA256, RSA_PKCS1_2048_8192_SHA1, RSA_PKCS1_2048_8192_SHA256, RSA_PKCS1_2048_8192_SHA384,
+        RSA_PKCS1_2048_8192_SHA1, RSA_PKCS1_2048_8192_SHA256, RSA_PKCS1_2048_8192_SHA384,
         RSA_PKCS1_2048_8192_SHA512, RSA_PKCS1_3072_8192_SHA384, RSA_PSS_2048_8192_SHA256,
         RSA_PSS_2048_8192_SHA384, RSA_PSS_2048_8192_SHA512,
     },
@@ -313,6 +313,14 @@ pub use crate::rsa::{
     RSA_PSS_SHA256,
     RSA_PSS_SHA384,
     RSA_PSS_SHA512,
+};
+
+#[cfg(feature = "rsa_compat")]
+pub use crate::rsa::{
+    verification::{
+        RSA_PKCS1_1024_8192_SHA1, RSA_PKCS1_1024_8192_SHA256,
+        RSA_PKCS1_1024_8192_SHA384, RSA_PKCS1_1024_8192_SHA512,
+    }
 };
 
 /// Lower-level verification primitives. Usage of `ring::signature::verify()`

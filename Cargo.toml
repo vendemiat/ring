@@ -326,6 +326,7 @@ internal_benches = []
 slow_tests = []
 test_logging = []
 use_heap = []
+rsa_compat = []
 
 # XXX: debug = false because of https://github.com/rust-lang/rust/issues/34122
 
