@@ -24,7 +24,7 @@ pub struct Seed {
 
 impl Seed {
     pub(crate) fn generate(
-        curve: &'static Curve, rng: &rand::SecureRandom, cpu_features: cpu::Features,
+        curve: &'static Curve, rng: &dyn rand::SecureRandom, cpu_features: cpu::Features,
     ) -> Result<Self, error::Unspecified> {
         let mut r = Self {
             bytes: [0u8; SEED_MAX_BYTES],

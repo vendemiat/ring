@@ -315,6 +315,14 @@ pub use crate::rsa::{
     RSA_PSS_SHA512,
 };
 
+#[cfg(feature = "rsa_compat")]
+pub use crate::rsa::{
+    verification::{
+        RSA_PKCS1_1024_8192_SHA1, RSA_PKCS1_1024_8192_SHA256,
+        RSA_PKCS1_1024_8192_SHA384, RSA_PKCS1_1024_8192_SHA512,
+    }
+};
+
 /// Lower-level verification primitives. Usage of `ring::signature::verify()`
 /// is preferred when the public key and signature are encoded in standard
 /// formats, as it also handles the parsing.
@@ -398,7 +406,7 @@ pub trait VerificationAlgorithm: core::fmt::Debug + Sync + sealed::Sealed {
 /// # fn main() { }
 /// ```
 pub fn verify(
-    alg: &VerificationAlgorithm, public_key: untrusted::Input, msg: untrusted::Input,
+    alg: &dyn VerificationAlgorithm, public_key: untrusted::Input, msg: untrusted::Input,
     signature: untrusted::Input,
 ) -> Result<(), error::Unspecified> {
     let _ = cpu::features();

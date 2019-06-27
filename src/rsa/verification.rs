@@ -19,6 +19,11 @@ use crate::{bits, cpu, digest, error, sealed, signature};
 
 use untrusted;
 
+#[cfg(feature = "rsa_compat")]
+pub const RSA_MIN_BITS: usize = 1024;
+#[cfg(not(feature = "rsa_compat"))]
+pub const RSA_MIN_BITS: usize = 2048;
+
 #[derive(Debug)]
 pub struct Key {
     pub n: bigint::Modulus<N>,
@@ -46,7 +51,7 @@ impl Key {
         // `pkcs1_encode` depends on this not being small. Otherwise,
         // `pkcs1_encode` would generate padding that is invalid (too few 0xFF
         // bytes) for very small keys.
-        const N_MIN_BITS: bits::BitLength = bits::BitLength::from_usize_bits(2048);
+        const N_MIN_BITS: bits::BitLength = bits::BitLength::from_usize_bits(RSA_MIN_BITS);
 
         // Step 1 / Step a. XXX: SP800-56Br1 and SP800-89 require the length of
         // the public modulus to be exactly 2048 or 3072 bits, but we are more
@@ -174,6 +179,48 @@ rsa_params!(
              PSS padding, and SHA-512.\n\nSee \"`RSA_PSS_*` Details\" in
              `ring::signature`'s module-level documentation for more details."
 );
+
+#[cfg(feature = "rsa_compat")]
+mod rsa_compat {
+    use super::*;
+    use crate::rsa;
+
+    rsa_params!(
+        RSA_PKCS1_1024_8192_SHA1,
+        1024,
+        &rsa::padding::RSA_PKCS1_SHA1,
+        "Verification of signatures using RSA keys of 1024-8192 bits,
+                 PKCS#1.5 padding, and SHA-1.\n\nSee \"`RSA_PKCS1_*` Details\" in
+                 `ring::signature`'s module-level documentation for more details."
+    );
+    rsa_params!(
+        RSA_PKCS1_1024_8192_SHA256,
+        1024,
+        &rsa::RSA_PKCS1_SHA256,
+        "Verification of signatures using RSA keys of 1024-8192 bits,
+                 PKCS#1.5 padding, and SHA-256.\n\nSee \"`RSA_PKCS1_*` Details\" in
+                 `ring::signature`'s module-level documentation for more details."
+    );
+    rsa_params!(
+        RSA_PKCS1_1024_8192_SHA384,
+        1024,
+        &rsa::RSA_PKCS1_SHA384,
+        "Verification of signatures using RSA keys of 1024-8192 bits,
+                 PKCS#1.5 padding, and SHA-384.\n\nSee \"`RSA_PKCS1_*` Details\" in
+                 `ring::signature`'s module-level documentation for more details."
+    );
+    rsa_params!(
+        RSA_PKCS1_1024_8192_SHA512,
+        1024,
+        &rsa::RSA_PKCS1_SHA512,
+        "Verification of signatures using RSA keys of 1024-8192 bits,
+                 PKCS#1.5 padding, and SHA-512.\n\nSee \"`RSA_PKCS1_*` Details\" in
+                 `ring::signature`'s module-level documentation for more details."
+    );
+}
+
+#[cfg(feature = "rsa_compat")]
+pub use rsa_compat::*;
 
 /// Lower-level API for the verification of RSA signatures.
 ///
